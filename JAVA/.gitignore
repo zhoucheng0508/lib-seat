@@ -1,0 +1,36 @@
+
+# Maven
+target/
+target/ >> .gitignore*/src/main/**/target/
+
+# Gradle
+.gradle/
+build/
+build/ >> .gitignore*/src/main/**/build/
+
+# IDE - IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+.idea_modules/
+
+# IDE - VS Code
+.vscode/
+*.code-workspace
+
+# Logs
+logs/
+*.log
+
+# Spring Boot
+spring-boot-devtools.restart.trigger-file
+
+# Application Properties
+src/main/resources/application-*.properties
+
+# Project specific
+uploads/
+backup_*.sql
+response.json

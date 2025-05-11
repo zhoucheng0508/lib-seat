@@ -1,0 +1,1 @@
+ALTER TABLE lib_seat.study_rooms MODIFY COLUMN id VARCHAR(36) NOT NULL; 
