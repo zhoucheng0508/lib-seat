@@ -199,4 +199,16 @@ public interface ReservationRepository extends JpaRepository<Reservation, String
      */
     @Query("SELECT r FROM Reservation r WHERE r.userId = :userId AND r.date = :date AND (r.isDeleted IS NULL OR r.isDeleted = false)")
     List<Reservation> findByUserIdAndDate(@Param("userId") String userId, @Param("date") LocalDate date);
+
+    @Query("SELECT r FROM Reservation r WHERE " +
+       "(" +
+       "   (r.date < :date) OR " +  // 日期小于今天
+       "   (r.date = :date AND r.endTime <= :endTime)" +  // 日期等于今天且结束时间小于等于当前时间
+       ") AND " +
+       "r.status IN :statuses AND " +  // 状态匹配
+       "(r.isDeleted IS NULL OR r.isDeleted = false)")  // 未删除的预约
+List<Reservation> findExpiredReservations(
+    @Param("date") LocalDate date,
+    @Param("endTime") LocalTime endTime,
+    @Param("statuses") List<String> statuses);
 } 

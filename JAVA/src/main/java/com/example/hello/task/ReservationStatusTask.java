@@ -18,16 +18,16 @@ public class ReservationStatusTask {
     
     @Scheduled(fixedRate = 60000) // 每分钟执行一次
     public void updateReservationStatus() {
+        System.out.println("doing task refresh reservation status");
         LocalDateTime now = LocalDateTime.now();
         
         // 只处理未取消的过期预约
         List<Reservation> expiredReservations = reservationRepository
-            .findByDateAndEndTimeBeforeAndStatusIn(
+            .findExpiredReservations(
                 now.toLocalDate(),
                 now.toLocalTime(),
                 List.of(ReservationStatus.PENDING.name(), ReservationStatus.CHECKED_IN.name())
             );
-            
         for (Reservation reservation : expiredReservations) {
             if (ReservationStatus.PENDING.name().equals(reservation.getStatus())) {
                 reservation.setStatus(ReservationStatus.NO_SHOW.name());
@@ -38,4 +38,5 @@ public class ReservationStatusTask {
         
         reservationRepository.saveAll(expiredReservations);
     }
+
 } 
